@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Name - Developer Portfolio</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.2/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 120px 0 80px;
+            text-align: center;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        /* Main Content */
+        main {
+            background: white;
+            border-radius: 20px 20px 0 0;
+            margin-top: -40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #333;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 2px;
+        }
+
+        /* Search */
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            position: relative;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 15px 50px 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 50px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .search-box:focus {
+            border-color: #667eea;
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+
+        /* Filter Buttons */
+        .filter-container {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        /* Skills Grid */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .skill-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-left: 5px solid #667eea;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .skill-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .skill-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .skill-category {
+            background: #667eea;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .skill-book {
+            color: #666;
+            font-style: italic;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .skill-content {
+            margin-bottom: 1.5rem;
+        }
+
+        /* Markdown content styling */
+        .skill-content h1, .skill-content h2, .skill-content h3 {
+            color: #333;
+            margin: 1rem 0 0.5rem;
+        }
+
+        .skill-content h1 { font-size: 1.3rem; }
+        .skill-content h2 { font-size: 1.2rem; }
+        .skill-content h3 { font-size: 1.1rem; }
+
+        .skill-content p {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+            color: #666;
+        }
+
+        .skill-content ul, .skill-content ol {
+            margin: 1rem 0;
+            padding-left: 2rem;
+        }
+
+        .skill-content li {
+            margin-bottom: 0.5rem;
+            color: #666;
+        }
+
+        .skill-content blockquote {
+            border-left: 4px solid #667eea;
+            margin: 1rem 0;
+            padding: 0.5rem 1rem;
+            background: #f8f9fa;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .skill-content pre {
+            background: #2d3748;
+            border-radius: 8px;
+            padding: 1rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        .skill-content code {
+            font-family: 'Courier New', monospace;
+        }
+
+        .skill-content pre code {
+            color: #e2e8f0;
+        }
+
+        .skill-content p code {
+            background: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #e53e3e;
+            font-size: 0.9em;
+        }
+
+        .skill-projects {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .project-tag {
+            background: #e7f3ff;
+            color: #0066cc;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .project-tag:hover {
+            background: #0066cc;
+            color: white;
+        }
+
+        /* Projects Grid */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .project-name {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .project-content {
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .project-skills {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .skill-tag {
+            background: #667eea;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .github-link {
+            background: #333;
+            color: white;
+        }
+
+        .github-link:hover {
+            background: #555;
+        }
+
+        .demo-link {
+            background: #667eea;
+            color: white;
+        }
+
+        .demo-link:hover {
+            background: #5a67d8;
+        }
+
+        /* Loading State */
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+
+        .loading i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #667eea;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Error State */
+        .error {
+            text-align: center;
+            padding: 3rem;
+            color: #e53e3e;
+        }
+
+        /* Books Section */
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .book-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .book-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .book-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .book-author {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .book-status {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .status-completed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-reading {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .book-skills {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        /* Footer */
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 3rem 0;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-link {
+            color: white;
+            text-decoration: none;
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+
+        .footer-link:hover {
+            color: #667eea;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero-stats {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-container {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        /* Hide sections initially */
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">Your Name</div>
+            <ul class="nav-links">
+                <li><a href="#" onclick="showSection('home')">Home</a></li>
+                <li><a href="#" onclick="showSection('skills')">Skills</a></li>
+                <li><a href="#" onclick="showSection('projects')">Projects</a></li>
+                <li><a href="#" onclick="showSection('books')">Books</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Building Skills, One Micro-Learning at a Time</h1>
+            <p>Documenting my journey through technology books and practical implementations</p>
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-number" id="skills-count">0</span>
+                    <span class="stat-label">Micro-Skills</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number" id="projects-count">0</span>
+                    <span class="stat-label">Mini-Projects</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number" id="books-count">0</span>
+                    <span class="stat-label">Books Read</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main>
+        <!-- Home Section -->
+        <section id="home" class="section active">
+            <div class="container">
+                <h2 class="section-title">Welcome to My Learning Journey</h2>
+                <div style="text-align: center; max-width: 800px; margin: 0 auto;">
+                    <p style="font-size: 1.2rem; line-height: 1.8; color: #666; margin-bottom: 2rem;">
+                        I believe in the power of micro-learning - breaking down complex concepts into digestible skills 
+                        and immediately applying them in practical mini-projects. This portfolio showcases my journey 
+                        through various technology books and the hands-on implementations that bring theory to life.
+                    </p>
+                    <p style="font-size: 1.1rem; line-height: 1.6; color: #666;">
+                        Each skill is learned from carefully selected books, documented with clear examples, 
+                        and demonstrated through focused mini-projects. Navigate through my skills, projects, 
+                        and reading list to see how I transform knowledge into practical applications.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="section">
+            <div class="container">
+                <h2 class="section-title">Micro-Skills Library</h2>
+                
+                <div class="search-container">
+                    <input type="text" class="search-box" placeholder="Search skills, books, or concepts..." id="skills-search">
+                    <i class="fas fa-search search-icon"></i>
+                </div>
+
+                <div class="filter-container" id="filter-container">
+                    <!-- Filter buttons will be populated by JavaScript -->
+                </div>
+
+                <div class="skills-grid" id="skills-container">
+                    <div class="loading">
+                        <i class="fas fa-spinner"></i>
+                        <p>Loading skills...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="section">
+            <div class="container">
+                <h2 class="section-title">Mini-Projects Showcase</h2>
+                
+                <div class="projects-grid" id="projects-container">
+                    <div class="loading">
+                        <i class="fas fa-spinner"></i>
+                        <p>Loading projects...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Books Section -->
+        <section id="books" class="section">
+            <div class="container">
+                <h2 class="section-title">Reading Journey</h2>
+                
+                <div class="books-grid" id="books-container">
+                    <div class="loading">
+                        <i class="fas fa-spinner"></i>
+                        <p>Loading books...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <a href="#" class="footer-link"><i class="fab fa-github"></i></a>
+                <a href="#" class="footer-link"><i class="fab fa-linkedin"></i></a>
+                <a href="#" class="footer-link"><i class="fas fa-envelope"></i></a>
+            </div>
+            <p>&copy; 2025 Your Name. Built with passion for continuous learning.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Configuration
+        const config = {
+            skillsPath: 'content/skills/',
+            projectsPath: 'content/projects/',
+            booksPath: 'content/books/',
+            indexFile: 'index.json'
+        };
+
+        // Global data storage
+        let portfolioData = {
+            skills: [],
+            projects: [],
+            books: [],
+            categories: new Set()
+        };
+
+        // Initialize the portfolio
+        document.addEventListener('DOMContentLoaded', async function() {
+            await loadAllContent();
+            updateStats();
+            renderSkills();
+            renderProjects();
+            renderBooks();
+            renderFilters();
+            setupSearch();
+        });
+
+        // Load all content from markdown files
+        async function loadAllContent() {
+            try {
+                // Load skills
+                await loadSkills();
+                // Load projects
+                await loadProjects();
+                // Load books
+                await loadBooks();
+            } catch (error) {
+                console.error('Error loading content:', error);
+                showError('skills-container', 'Failed to load content. Please check your file structure.');
+            }
+        }
+
+        // Load skills from markdown files
+        async function loadSkills() {
+            try {
+                // Try to load skills index
+                const indexResponse = await fetch(`${config.skillsPath}${config.indexFile}`);
+                
+                if (indexResponse.ok) {
+                    const index = await indexResponse.json();
+                    
+                    for (const skillFile of index.skills) {
+                        const response = await fetch(`${config.skillsPath}${skillFile.filename}`);
+                        if (response.ok) {
+                            const markdownContent = await response.text();
+                            const skill = parseSkillMarkdown(markdownContent, skillFile);
+                            portfolioData.skills.push(skill);
+                            portfolioData.categories.add(skill.category);
+                        }
+                    }
+                } else {
+                    // Fallback to sample data if no index file exists
+                    portfolioData.skills = getSampleSkills();
+                    portfolioData.skills.forEach(skill => portfolioData.categories.add(skill.category));
+                }
+            } catch (error) {
+                console.error('Error loading skills:', error);
+                // Use sample data as fallback
+                portfolioData.skills = getSampleSkills();
+                portfolioData.skills.forEach(skill => portfolioData.categories.add(skill.category));
+            }
+        }
+
+        // Load projects from markdown files
+        async function loadProjects() {
+            try {
+                const indexResponse = await fetch(`${config.projectsPath}${config.indexFile}`);
+                
+                if (indexResponse.ok) {
+                    const index = await indexResponse.json();
+                    
+                    for (const projectFile of index.projects) {
+                        const response = await fetch(`${config.projectsPath}${projectFile.filename}`);
+                        if (response.ok) {
+                            const markdownContent = await response.text();
+                            const project = parseProjectMarkdown(markdownContent, projectFile);
+                            portfolioData.projects.push(project);
+                        }
+                    }
+                } else {
+                    portfolioData.projects = getSampleProjects();
+                }
+            } catch (error) {
+                console.error('Error loading projects:', error);
+                portfolioData.projects = getSampleProjects();
+            }
+        }
+
+        // Load books from markdown files
+        async function loadBooks() {
+            try {
+                const indexResponse = await fetch(`${config.booksPath}${config.indexFile}`);
+                
+                if (indexResponse.ok) {
+                    const index = await indexResponse.json();
+                    
+                    for (const bookFile of index.books) {
+                        const response = await fetch(`${config.booksPath}${bookFile.filename}`);
+                        if (response.ok) {
+                            const markdownContent = await response.text();
+                            const book = parseBookMarkdown(markdownContent, bookFile);
+                            portfolioData.books.push(book);
+                        }
+                    }
+                } else {
+                    portfolioData.books = getSampleBooks();
+                }
+            } catch (error) {
+                console.error('Error loading books:', error);
+                portfolioData.books = getSampleBooks();
+            }
+        }
+
+        // Parse skill markdown content
+        function parseSkillMarkdown(markdownContent, metadata) {
+            const htmlContent = marked.parse(markdownContent);
+            return {
+                name: metadata.name,
+                category: metadata.category,
+                book: metadata.book,
+                projects: metadata.projects || [],
+                content: htmlContent,
+                rawContent: markdownContent
+            };
+        }
+
+        // Parse project markdown content
+        function parseProjectMarkdown(markdownContent, metadata) {
+            const htmlContent = marked.parse(markdownContent);
+            return {
+                name: metadata.name,
+                skills: metadata.skills || [],
+                githubUrl: metadata.githubUrl,
+                liveUrl: metadata.liveUrl,
+                content: htmlContent,
+                rawContent: markdownContent
+            };
+        }
+
+        // Parse book markdown content
+        function parseBookMarkdown(markdownContent, metadata) {
+            const htmlContent = marked.parse(markdownContent);
+            return {
+                title: metadata.title,
+                author: metadata.author,
+                status: metadata.status,
+                skillsLearned: metadata.skillsLearned || [],
+                content: htmlContent,
+                rawContent: markdownContent
+            };
+        }
+
+        // Sample data for when markdown files aren't available
+        function getSampleSkills() {
+            return [
+                {
+                    name: "JavaScript Closures",
+                    category: "JavaScript",
+                    book: "You Don't Know JS: Scope & Closures",
+                    projects: ["Todo App", "Calculator"],
+                    content: marked.parse(`
+## Understanding Closures
+
+A closure is when a function "remembers" its lexical scope even when the function is executed outside that lexical scope.
+
+### Key Concepts
+
+- **Lexical Scoping**: Variables defined outside a function can be accessible inside another function
+- **Function Scope**: Each function creates a new scope
+- **Closure Creation**: When inner functions access outer function variables
+
+### Practical Example
+
+\`\`\`javascript
+function createCounter() {
+    let count = 0;
+    
+    return function() {
+        return ++count;
+    };
+}
+
+const counter = createCounter();
+console.log(counter()); // 1
+console.log(counter()); // 2
+console.log(counter()); // 3
+\`\`\`
+
+### Why It Matters
+
+Closures enable:
+- **Private variables** - Data encapsulation
+- **Module patterns** - Creating reusable code modules  
+- **Callback functions** - Maintaining state in async operations
+- **Higher-order functions** - Functions that return functions
+
+> "Closure is when a function can remember and access its lexical scope even when it's invoked outside its lexical scope." - Kyle Simpson
+                    `)
+                },
+                {
+                    name: "Python Decorators",
+                    category: "Python",
+                    book: "Fluent Python",
+                    projects: ["API Logger", "Performance Monitor"],
+                    content: marked.parse(`
+## Python Decorators
+
+Decorators are a way to modify or extend the behavior of functions without permanently modifying them.
+
+### Basic Syntax
+
+\`\`\`python
+def my_decorator(func):
+    def wrapper(*args, **kwargs):
+        # Do something before
+        result = func(*args, **kwargs)
+        # Do something after
+        return result
+    return wrapper
+
+@my_decorator
+def my_function():
+    pass
+\`\`\`
+
+### Practical Example: Timing Decorator
+
+\`\`\`python
+import time
+from functools import wraps
+
+def timing_decorator(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f"{func.__name__} took {end_time - start_time:.4f} seconds")
+        return result
+    return wrapper
+
+@timing_decorator
+def slow_function():
+    time.sleep(1)
+    return "Done!"
+\`\`\`
+
+### Common Use Cases
+
+- **Logging**: Track function calls and parameters
+- **Authentication**: Check user permissions before execution
+- **Caching**: Store function results for better performance
+- **Validation**: Verify input parameters
+                    `)
+                }
+            ];
+        }
+
+        function getSampleProjects() {
+            return [
+                {
+                    name: "Todo App",
+                    skills: ["JavaScript Closures", "DOM Manipulation", "Local Storage"],
+                    githubUrl: "https://github.com/yourusername/todo-app",
+                    liveUrl: "https://yourusername.github.io/todo-app",
+                    content: marked.parse(`
+A clean, responsive todo application that demonstrates closure patterns for state management.
+
+## Features
+
+- **Add/Edit/Delete** tasks with smooth animations
+- **Persistent storage** using localStorage
+- **Filtering** by completion status
+- **Responsive design** for all devices
+
+## Skills Demonstrated
+
+### JavaScript Closures
+Used closure patterns to create private state management:
+
+\`\`\`javascript
+const TodoApp = (function() {
+    let todos = [];
+    
+    return {
+        addTodo: function(text) {
+            todos.push({ id: Date.now(), text, completed: false });
+        },
+        getTodos: function() {
+            return [...todos]; // Return copy to prevent mutation
+        }
+    };
+})();
+\`\`\`
+
+This encapsulates the todos array and provides controlled access through public methods.
+                    `)
+                },
+                {
+                    name: "API Logger",
+                    skills: ["Python Decorators", "API Integration", "Logging"],
+                    githubUrl: "https://github.com/yourusername/api-logger",
+                    liveUrl: null,
+                    content: marked.parse(`
+Python utility that uses decorators to automatically log API requests and responses.
+
+## Features
+
+- **Automatic logging** of all API calls
+- **Response time tracking**
+- **Error handling** and logging
+- **Configurable log levels**
+
+                ## Implementation
+
+\`\`\`python
+@api_logger
+def fetch_user_data(user_id):
+    response = requests.get(f"/api/users/{user_id}")
+    return response.json()
+\`\`\`
+
+The decorator automatically logs request details, response times, and any errors.
+                    `)
+                }
+            ];
+        }
+
+        function getSampleBooks() {
+            return [
+                {
+                    title: "You Don't Know JS: Scope & Closures",
+                    author: "Kyle Simpson",
+                    status: "Completed",
+                    skillsLearned: ["JavaScript Closures", "Lexical Scoping", "Module Patterns"],
+                    content: marked.parse(`
+## Book Review
+
+Excellent deep dive into JavaScript's most misunderstood concepts. Kyle Simpson breaks down complex topics into digestible explanations.
+
+### Key Takeaways
+
+- Closures are not just academic concepts but practical tools
+- Understanding scope helps write better, more maintainable code
+- Module patterns are essential for larger applications
+
+### Favorite Quote
+
+> "Closure is when a function can remember and access its lexical scope even when it's invoked outside its lexical scope."
+
+**Rating:** ⭐⭐⭐⭐⭐
+                    `)
+                },
+                {
+                    title: "Fluent Python",
+                    author: "Luciano Ramalho",
+                    status: "Reading",
+                    skillsLearned: ["Python Decorators", "Metaclasses", "Descriptors"],
+                    content: marked.parse(`
+## Currently Reading
+
+Deep exploration of Python's advanced features and idiomatic programming patterns.
+
+### Progress Notes
+
+- **Completed:** Chapters 1-7 (Data Model, Sequences, Dictionaries)
+- **Current:** Chapter 8 (Function Decorators and Closures)
+- **Next:** Metaclasses and Advanced OOP
+
+### Learning Highlights
+
+The decorator chapter completely changed how I think about function composition and code reusability.
+
+**Current Rating:** ⭐⭐⭐⭐⭐
+                    `)
+                }
+            ];
+        }
+
+        // Update statistics
+        function updateStats() {
+            document.getElementById('skills-count').textContent = portfolioData.skills.length;
+            document.getElementById('projects-count').textContent = portfolioData.projects.length;
+            document.getElementById('books-count').textContent = portfolioData.books.filter(book => book.status === 'Completed').length;
+        }
+
+        // Render filter buttons
+        function renderFilters() {
+            const filterContainer = document.getElementById('filter-container');
+            const categories = Array.from(portfolioData.categories);
+            
+            filterContainer.innerHTML = `
+                <button class="filter-btn active" onclick="filterSkills('all')">All Skills</button>
+                ${categories.map(category => `
+                    <button class="filter-btn" onclick="filterSkills('${category}')">${category}</button>
+                `).join('')}
+            `;
+        }
+
+        // Navigation
+        function showSection(sectionName) {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => section.classList.remove('active'));
+            
+            document.getElementById(sectionName).classList.add('active');
+            window.location.hash = sectionName;
+        }
+
+        // Render skills
+        function renderSkills(filteredSkills = null) {
+            const skillsContainer = document.getElementById('skills-container');
+            const skills = filteredSkills || portfolioData.skills;
+            
+            if (skills.length === 0) {
+                skillsContainer.innerHTML = '<div class="error"><p>No skills found matching your criteria.</p></div>';
+                return;
+            }
+            
+            skillsContainer.innerHTML = skills.map(skill => `
+                <div class="skill-card fade-in-up">
+                    <div class="skill-header">
+                        <h3 class="skill-name">${skill.name}</h3>
+                        <span class="skill-category">${skill.category}</span>
+                    </div>
+                    <p class="skill-book">📚 ${skill.book}</p>
+                    <div class="skill-content">${skill.content}</div>
+                    ${skill.projects && skill.projects.length > 0 ? `
+                        <div class="skill-projects">
+                            ${skill.projects.map(project => `
+                                <span class="project-tag" onclick="showProjectDetails('${project}')">${project}</span>
+                            `).join('')}
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+
+            // Re-run Prism highlighting for code blocks
+            if (typeof Prism !== 'undefined') {
+                Prism.highlightAll();
+            }
+        }
+
+        // Render projects
+        function renderProjects() {
+            const projectsContainer = document.getElementById('projects-container');
+            
+            if (portfolioData.projects.length === 0) {
+                projectsContainer.innerHTML = '<div class="loading"><p>No projects available yet.</p></div>';
+                return;
+            }
+            
+            projectsContainer.innerHTML = portfolioData.projects.map(project => `
+                <div class="project-card fade-in-up">
+                    <h3 class="project-name">${project.name}</h3>
+                    <div class="project-content">${project.content}</div>
+                    ${project.skills && project.skills.length > 0 ? `
+                        <div class="project-skills">
+                            ${project.skills.map(skill => `
+                                <span class="skill-tag">${skill}</span>
+                            `).join('')}
+                        </div>
+                    ` : ''}
+                    <div class="project-links">
+                        <a href="${project.githubUrl}" class="project-link github-link" target="_blank">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                        ${project.liveUrl ? `
+                            <a href="${project.liveUrl}" class="project-link demo-link" target="_blank">
+                                <i class="fas fa-external-link-alt"></i> Live Demo
+                            </a>
+                        ` : ''}
+                    </div>
+                </div>
+            `).join('');
+
+            if (typeof Prism !== 'undefined') {
+                Prism.highlightAll();
+            }
+        }
+
+        // Render books
+        function renderBooks() {
+            const booksContainer = document.getElementById('books-container');
+            
+            if (portfolioData.books.length === 0) {
+                booksContainer.innerHTML = '<div class="loading"><p>No books in reading list yet.</p></div>';
+                return;
+            }
+            
+            booksContainer.innerHTML = portfolioData.books.map(book => `
+                <div class="book-card fade-in-up">
+                    <h3 class="book-title">${book.title}</h3>
+                    <p class="book-author">by ${book.author}</p>
+                    <span class="book-status ${book.status === 'Completed' ? 'status-completed' : 'status-reading'}">
+                        ${book.status}
+                    </span>
+                    ${book.skillsLearned && book.skillsLearned.length > 0 ? `
+                        <div class="book-skills">
+                            ${book.skillsLearned.map(skill => `
+                                <span class="skill-tag">${skill}</span>
+                            `).join('')}
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+        }
+
+        // Filter skills
+        function filterSkills(category) {
+            // Update active filter button
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            filterBtns.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Filter and render skills
+            if (category === 'all') {
+                renderSkills();
+            } else {
+                const filteredSkills = portfolioData.skills.filter(skill => skill.category === category);
+                renderSkills(filteredSkills);
+            }
+        }
+
+        // Setup search functionality
+        function setupSearch() {
+            const searchBox = document.getElementById('skills-search');
+            searchBox.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                const filteredSkills = portfolioData.skills.filter(skill => 
+                    skill.name.toLowerCase().includes(searchTerm) ||
+                    skill.category.toLowerCase().includes(searchTerm) ||
+                    skill.book.toLowerCase().includes(searchTerm) ||
+                    skill.rawContent.toLowerCase().includes(searchTerm)
+                );
+                renderSkills(filteredSkills);
+            });
+        }
+
+        // Show project details
+        function showProjectDetails(projectName) {
+            const project = portfolioData.projects.find(p => p.name === projectName);
+            if (project) {
+                showSection('projects');
+                // Could add highlighting or scrolling to specific project
+            }
+        }
+
+        // Show error message
+        function showError(containerId, message) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = `
+                <div class="error">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <p>${message}</p>
+                </div>
+            `;
+        }
+
+        // Handle URL hash navigation
+        window.addEventListener('hashchange', function() {
+            const hash = window.location.hash.substring(1);
+            if (hash) {
+                showSection(hash);
+            }
+        });
+
+        // Initialize with URL hash if present
+        window.addEventListener('load', function() {
+            const hash = window.location.hash.substring(1);
+            if (hash && ['home', 'skills', 'projects', 'books'].includes(hash)) {
+                showSection(hash);
+            }
+        });
+    </script>
+</body>
+</html>
